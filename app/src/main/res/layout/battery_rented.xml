@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/panel_import"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="8dp"
+        android:weightSum="10"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <android.support.v7.widget.CardView
+            android:layout_margin="5dp"
+            app:cardCornerRadius="5dp"
+            android:layout_width="match_parent"
+            app:cardElevation="25dp"
+            android:layout_weight="7"
+            android:layout_height="150dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:id="@+id/requestMsg"
+                android:focusable="true"
+                android:fontFamily="@string/appbar_scrolling_view_behavior"
+                android:text="Parul Thakur with UID paid Rs 1200 to get battery with model number A8B for 1 month."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginTop="90dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_height="match_parent"
+                android:id="@+id/orderId"
+                android:text="Transaction ID : Sof24ffYG"/>
+
+
+
+        </android.support.v7.widget.CardView>
+
+        <ng.max.slideview.SlideView
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:id="@+id/acceptReq"
+            android:layout_marginTop="10dp"
+            android:layout_weight="3"
+            app:sv_reverseSlide="false"
+            app:sv_buttonBackgroundColor="#ffffff"
+            app:sv_buttonImage="@drawable/ic_keyboard_arrow_right_black_24dp"
+            app:sv_slideBackgroundColor="@color/colorPrimaryDark"
+            app:sv_slideText="Accept"
+            app:sv_slideTextColor="#ffffff"/>
+
+    </LinearLayout>
+
+    <com.victor.ringbutton.RingButton
+        android:id="@+id/ringButton"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:ringbutton_downDrawable="@drawable/hand_write"
+        app:ringbutton_downText="My Battery"
+        app:ringbutton_upDrawable="@drawable/take_photo"
+        app:ringbutton_upText="Rented Battery" />
+
+</android.support.constraint.ConstraintLayout>

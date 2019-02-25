@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "922113048831",
+    "firebase_url": "https://batterent-810a3.firebaseio.com",
+    "project_id": "batterent-810a3",
+    "storage_bucket": "batterent-810a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922113048831:android:5dafe49dce3c09e9",
+        "android_client_info": {
+          "package_name": "com.example.batterent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "922113048831-n1h7klbmd5131b9u0h3ma8nqc4157clv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.batterent",
+            "certificate_hash": "a35c59798942f6f109306d0b12b809971782c146"
+          }
+        },
+        {
+          "client_id": "922113048831-7ot1kpuresqrfk881mr9mh8ulnp0ma7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIrk5utLXpAoF8IjQJJU52fhaOlxc49FY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "922113048831-7ot1kpuresqrfk881mr9mh8ulnp0ma7h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922113048831:android:f9d64cacd1348a64",
+        "android_client_info": {
+          "package_name": "com.example.distributor_batterent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "922113048831-7ot1kpuresqrfk881mr9mh8ulnp0ma7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIrk5utLXpAoF8IjQJJU52fhaOlxc49FY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
