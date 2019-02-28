@@ -7,15 +7,16 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialog;
-import com.bestsoft32.tt_fancy_gif_dialog_lib.TTFancyGifDialogListener;
-import com.example.distributor_batterent.Services.StatusService;
 import com.example.distributor_batterent.Util.Common;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.Result;
 import com.marcoscg.dialogsheet.DialogSheet;
 
@@ -23,27 +24,24 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ScanActivity extends BaseScannerActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
     Call<String> sendStatus;
+    DatabaseReference reference;
     private static final String TAG = "ScanActivity";
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_simple_scanner);
         setupToolbar();
+        reference = FirebaseDatabase.getInstance().getReference("number");
         ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
         mScannerView = new ZXingScannerView(this);
         contentFrame.addView(mScannerView);
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://us-central1-batterent-810a3.cloudfunctions.net/").build();
-        StatusService statusService = retrofit.create(StatusService.class);
-         sendStatus = statusService.allowBattery("true");
+
+
     }
 
     @Override
@@ -109,21 +107,15 @@ public class ScanActivity extends BaseScannerActivity implements ZXingScannerVie
 
     private void sendYesToCloud() {
 
-        sendStatus.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.d(TAG, "onResponse: "+response.toString());
+       reference.setValue(0).addOnCompleteListener(new OnCompleteListener<Void>() {
+           @Override
+           public void onComplete(@NonNull Task<Void> task) {
+               startActivity(new Intent(ScanActivity.this,MainActivity.class));
+               finish();
+           }
+       });
 
-            }
 
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.d(TAG, "onFailure: "+t.getMessage());
-            }
-        });
-
-        startActivity(new Intent(ScanActivity.this,MainActivity.class));
-        finish();
 
 
 
