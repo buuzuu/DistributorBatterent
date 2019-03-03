@@ -13,9 +13,11 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.distributor_batterent.Model.Credentials;
 import com.example.distributor_batterent.Model.Order;
 import com.example.distributor_batterent.Util.Common;
 import com.forms.sti.progresslitieigb.ProgressLoadingJIGB;
@@ -24,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 import com.victor.ringbutton.RingButton;
 
 import java.util.Iterator;
@@ -35,26 +38,43 @@ public class RentedBatteries extends Fragment {
     RingButton ringButton;
     SlideView slideView;
     private static final int ZBAR_CAMERA_PERMISSION = 1;
-
     View view ;
-    DatabaseReference reference;
-    TextView requestMsg,orderId;
+    TextView schemeName ,customerName
+            ,userId
+            ,nice_spinner
+            ,month,paidAmount
+            ,address
+            ,shipAddress;
+    DatabaseReference reference,reference2;
+    ImageView imageView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.battery_rented,container,false);
         ringButton =view.findViewById(R.id.ringButton);
         slideView = view.findViewById(R.id.acceptReq);
-        requestMsg = view.findViewById(R.id.requestMsg);
-        orderId = view.findViewById(R.id.orderId);
+        customerName = view.findViewById(R.id.customerName);
+        paidAmount = view.findViewById(R.id.paidAmount);
+        shipAddress = view.findViewById(R.id.shipAddress);
+        month = view.findViewById(R.id.month);
+        address = view.findViewById(R.id.address);
+        schemeName = view.findViewById(R.id.scheme_name);
+        userId = view.findViewById(R.id.userId);
+        imageView = view.findViewById(R.id.rcImage);
         ringButton.setOnClickListener(new RingButton.OnClickListener() {
             @Override
             public void clickUp() {
-                startActivity(new Intent(getActivity(),RentedList.class));
+
+                startActivity(new Intent(getActivity(),MyRentedBatteryList.class));
+
+               // startActivity(new Intent(getActivity(),RentedList.class));
             }
 
             @Override
             public void clickDown() {
+
+                startActivity(new Intent(getActivity(),BatteryList.class));
+
             }
         });
 
@@ -93,7 +113,7 @@ public class RentedBatteries extends Fragment {
         super.onCreate(savedInstanceState);
         ProgressLoadingJIGB.startLoadingJIGB(getActivity(),R.raw.waiting,"Waiting for Incoming Request...",0,500,500);
         reference = FirebaseDatabase.getInstance().getReference("Orders");
-
+        reference2 = FirebaseDatabase.getInstance().getReference("credentials");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -112,28 +132,33 @@ public class RentedBatteries extends Fragment {
                             Common.recievedOrder =tempItem.getValue(Order.class);
                         }
 
-                        requestMsg.setTextSize(20);
-                        requestMsg.setText(Common.recievedOrder.getUserName()+
-                                            " with UID "+Common.recievedOrder.getUserId()+" paid ₹"
-                                            +Common.recievedOrder.getAmount()+" for battery with model number "+
-                                            Common.recievedOrder.getProduct()+" for "+Common.recievedOrder.getMonth()+" month to be shipped at "
-                                            +Common.recievedOrder.getAddress());
-                        orderId.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                        orderId.setText("Transaction Number: "+Common.recievedOrder.getOrderId());
+                        schemeName.setText(Common.recievedOrder.getProduct());
+                        customerName.setText(Common.recievedOrder.getUserName());
+
+                        userId.setText(Common.recievedOrder.getUserId());
+                        month.setText("2 ");
+                        paidAmount.setText(Common.recievedOrder.getAmount());
+                        address.setText("Transaction Number: "+Common.recievedOrder.getOrderId());
+                        shipAddress.setText("Ship to: "+Common.recievedOrder.getAddress());
 
 
-
-
-
+                        setUpRC(Common.recievedOrder.getUserId());
 
                     }else {
-                        requestMsg.setTextSize(40);
-                        requestMsg.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                        requestMsg.setText("Sorry");
-                        orderId.setText("No order available to show.");
+                        customerName.setVisibility(View.INVISIBLE);
+                        userId.setVisibility(View.INVISIBLE);
+                      //  nice_spinner.setVisibility(View.INVISIBLE);
+                        paidAmount.setVisibility(View.INVISIBLE);
+                        address.setVisibility(View.INVISIBLE);
+                        shipAddress.setVisibility(View.INVISIBLE);
+                        schemeName.setTextSize(35);
+                        month.setText("");
+                        schemeName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        schemeName.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                        schemeName.setText("Sorry"+"\n"+"No order available to show.");
+                        customerName.setVisibility(View.INVISIBLE);
+
                     }
-
-
 
             }
 
@@ -143,6 +168,29 @@ public class RentedBatteries extends Fragment {
             }
         });
 
+
+    }
+
+    private void setUpRC(String userId) {
+
+        reference2.child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()){
+                    Credentials credentials = dataSnapshot.getValue(Credentials.class);
+                    Picasso.with(getActivity()).load(credentials.getRcURL()).centerCrop().fit()
+                                .into(imageView);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 }
